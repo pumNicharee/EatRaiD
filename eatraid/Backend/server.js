@@ -21,11 +21,13 @@ app.set("trust proxy", 1);
 
 app.use(
   cors({
-    origin: [
-      "https://eat-rai-d-15pa.vercel.app",
-      "https://eat-rai-d-15pa-ptbwr1e30-pumxni-s-projects.vercel.app",
-      "http://localhost:3000"
-    ],
+    origin: function(origin, callback) {
+      if (!origin || origin.includes('vercel.app') || origin === 'http://localhost:3000') {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );

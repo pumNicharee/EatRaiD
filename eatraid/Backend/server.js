@@ -550,9 +550,103 @@ app.put("/editprofile", upload.single("file"), async (req, res) => {
 //   }
 // });
 
+// app.post("/addmenu", upload.single("file"), async (req, res) => {
+//   try {
+//     const file = req.file;
+//     const { RestaurantId, NameFood, Price, TypeID } = req.body;
+//     const newminetype = "image/jpeg";
+//     const newfilename = `Menu_${RestaurantId}_${uuid4()}.jpeg`;
+//     const { data: PicData, error: uploadError } = await supabase.storage
+//       .from("Menu")
+//       .upload(newfilename, file.buffer, {
+//         contentType: newminetype,
+//       });
+//     if (uploadError) throw uploadError;
+//     else {
+//       const MenuPic = `https://yzqsiymwrqatvmfcyyfg.supabase.co/storage/v1/object/public/${PicData.fullPath}`;
+//       const { data, error } = await supabase
+//         .from("Menu")
+//         .insert([{ RestaurantId, NameFood, Price, TypeID, MenuPic }])
+//         .select("*");
+//       if (error) throw error;
+//       res.status(200).json({ data });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ msg: error.message });
+//   }
+// });
+
+// app.put("/editmenu", upload.single("file"), async (req, res) => {
+//   try {
+//     const file = req.file;
+//     console.log(file);
+//     const { id, type, name, price } = req.body;
+//     console.log(req.body);
+//     const newminetype = "image/jpeg";
+//     const newfilename = `Menu_${id}_${uuid4()}.jpeg`;
+
+//     const { data: MenuData, error: fetchError } = await supabase
+//       .from("Menu")
+//       .select("MenuPic")
+//       .eq("Id", id)
+//       .single();
+
+//     if (fetchError) {
+//       throw fetchError;
+//     }
+//     if (!MenuData) {
+//       throw new Error("Post not found.");
+//     }
+
+//     const oldMenuPic = MenuData.MenuPic;
+//     const imagePath = oldMenuPic.split('/').pop();
+
+
+//     if (file) {
+
+//       await supabase.storage.from("Menu").remove([imagePath]);
+
+//       const { data: updateData, error: uploadError } = await supabase.storage
+//         .from("Menu")
+//         .upload(newfilename, file.buffer, {
+//           contentType: newminetype,
+//           upsert: true,
+//         });
+
+//       if (uploadError) {
+//         throw uploadError;
+//       }
+
+//       const img = `https://yzqsiymwrqatvmfcyyfg.supabase.co/storage/v1/object/public/${updateData.fullPath}`;
+
+//       const { data, error } = await supabase.from("Menu").update({ TypeID: type, NameFood: name, Price: price, MenuPic: img }).eq("Id", id).select("*");
+
+//       if (error) {
+//         res.status(500).json({ error });
+//       } else {
+//         res.status(200).json(data);
+//       }
+//     } else {
+//       // return res.status(400).json({ msg: "No file uploaded" });
+//       const img = oldMenuPic;
+//       const { data, error } = await supabase.from("Menu").update({ TypeID: type, NameFood: name, Price: price, MenuPic: img }).eq("Id", id).select("*");
+
+//       if (error) {
+//         res.status(500).json({ error });
+//       } else {
+//         res.status(200).json(data);
+//       }
+//     }
+//   } catch (error) {
+//     res.status(500).json({ msg: error.message });
+//   }
+// });
+
 app.post("/addmenu", upload.single("file"), async (req, res) => {
   try {
     const file = req.file;
+    console.log("file:", file);
+    console.log("body:", req.body);
     const { RestaurantId, NameFood, Price, TypeID } = req.body;
     const newminetype = "image/jpeg";
     const newfilename = `Menu_${RestaurantId}_${uuid4()}.jpeg`;
@@ -561,83 +655,24 @@ app.post("/addmenu", upload.single("file"), async (req, res) => {
       .upload(newfilename, file.buffer, {
         contentType: newminetype,
       });
-    if (uploadError) throw uploadError;
+    if (uploadError) {
+      console.log("uploadError:", uploadError);
+      throw uploadError;
+    }
     else {
       const MenuPic = `https://yzqsiymwrqatvmfcyyfg.supabase.co/storage/v1/object/public/${PicData.fullPath}`;
       const { data, error } = await supabase
         .from("Menu")
         .insert([{ RestaurantId, NameFood, Price, TypeID, MenuPic }])
         .select("*");
-      if (error) throw error;
+      if (error) {
+        console.log("insertError:", error);
+        throw error;
+      }
       res.status(200).json({ data });
     }
   } catch (error) {
-    res.status(500).json({ msg: error.message });
-  }
-});
-
-app.put("/editmenu", upload.single("file"), async (req, res) => {
-  try {
-    const file = req.file;
-    console.log(file);
-    const { id, type, name, price } = req.body;
-    console.log(req.body);
-    const newminetype = "image/jpeg";
-    const newfilename = `Menu_${id}_${uuid4()}.jpeg`;
-
-    const { data: MenuData, error: fetchError } = await supabase
-      .from("Menu")
-      .select("MenuPic")
-      .eq("Id", id)
-      .single();
-
-    if (fetchError) {
-      throw fetchError;
-    }
-    if (!MenuData) {
-      throw new Error("Post not found.");
-    }
-
-    const oldMenuPic = MenuData.MenuPic;
-    const imagePath = oldMenuPic.split('/').pop();
-
-
-    if (file) {
-
-      await supabase.storage.from("Menu").remove([imagePath]);
-
-      const { data: updateData, error: uploadError } = await supabase.storage
-        .from("Menu")
-        .upload(newfilename, file.buffer, {
-          contentType: newminetype,
-          upsert: true,
-        });
-
-      if (uploadError) {
-        throw uploadError;
-      }
-
-      const img = `https://yzqsiymwrqatvmfcyyfg.supabase.co/storage/v1/object/public/${updateData.fullPath}`;
-
-      const { data, error } = await supabase.from("Menu").update({ TypeID: type, NameFood: name, Price: price, MenuPic: img }).eq("Id", id).select("*");
-
-      if (error) {
-        res.status(500).json({ error });
-      } else {
-        res.status(200).json(data);
-      }
-    } else {
-      // return res.status(400).json({ msg: "No file uploaded" });
-      const img = oldMenuPic;
-      const { data, error } = await supabase.from("Menu").update({ TypeID: type, NameFood: name, Price: price, MenuPic: img }).eq("Id", id).select("*");
-
-      if (error) {
-        res.status(500).json({ error });
-      } else {
-        res.status(200).json(data);
-      }
-    }
-  } catch (error) {
+    console.log("catchError:", error.message);
     res.status(500).json({ msg: error.message });
   }
 });

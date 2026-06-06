@@ -72,7 +72,8 @@ app.use(bodyParser.json());
 const port = 3300;
 
 const supabaseUrl = "https://yzqsiymwrqatvmfcyyfg.supabase.co";
-const supabaseKey = process.env.ANON_KEY;
+// const supabaseKey = process.env.ANON_KEY;
+const supabaseKey = process.env.SERVICE_ROLE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // ===========================user management===========================

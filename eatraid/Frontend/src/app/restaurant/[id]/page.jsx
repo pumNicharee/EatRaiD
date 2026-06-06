@@ -376,7 +376,7 @@ export default function restaurant({ params }) {
               </div>
               <div className={styles.rowCon}>
                 <h2 className={styles.normalText}>Business day</h2>
-                <h2 className={styles.normalText2}>{openday}</h2>
+                <h2 className={styles.normalText2}>{openday.join(", ")}</h2>
               </div>
               <div className={styles.rowCon}>
                 <h2 className={styles.normalText}>Time</h2>

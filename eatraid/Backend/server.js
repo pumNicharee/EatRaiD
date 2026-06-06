@@ -20,7 +20,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://eat-rai-d-15pa.vercel.app",
+    origin: [
+      "https://eat-rai-d-15pa.vercel.app",
+      "https://eat-rai-d-15pa-ptbwr1e30-pumxni-s-projects.vercel.app",
+      "http://localhost:3000"
+    ],
     credentials: true,
   })
 );

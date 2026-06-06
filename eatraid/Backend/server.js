@@ -42,7 +42,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 const port = 3300;
 
-const supabaseUrl = "https://gemuxctpjqhmwbtxrpul.supabase.co";
+const supabaseUrl = "https://yzqsiymwrqatvmfcyyfg.supabase.co";
 const supabaseKey = process.env.ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -110,7 +110,7 @@ app.post("/user-profile", upload.single("file"), async (req, res) => {
       });
 
     if (uploadError) throw uploadError;
-    const ProfilePic = `https://gemuxctpjqhmwbtxrpul.supabase.co/storage/v1/object/public/${updateData.fullPath}`;
+    const ProfilePic = `https://yzqsiymwrqatvmfcyyfg.supabase.co/storage/v1/object/public/${updateData.fullPath}`;
     res.status(200).json({ profile: ProfilePic });
   } else {
     res.status(400).json();
@@ -427,7 +427,7 @@ app.put("/editprofile", upload.single("file"), async (req, res) => {
 
       if (uploadError) throw uploadError;
 
-      const ProfilePic = `https://gemuxctpjqhmwbtxrpul.supabase.co/storage/v1/object/public/${updateData.fullPath}`;
+      const ProfilePic = `https://yzqsiymwrqatvmfcyyfg.supabase.co/storage/v1/object/public/${updateData.fullPath}`;
       const { data, error } = await supabase.from("User").update({ ProfilePic }).eq("Id", RestaurantId).select("*");
       if (error) {
         res.status(500).json({ error });
@@ -503,7 +503,7 @@ app.put("/editprofile", upload.single("file"), async (req, res) => {
 
 //       if (uploadError) throw uploadError;
 //       else {
-//         const ProfilePic = `https://gemuxctpjqhmwbtxrpul.supabase.co/storage/v1/object/public/${updateData.fullPath}`;
+//         const ProfilePic = `https://yzqsiymwrqatvmfcyyfg.supabase.co/storage/v1/object/public/${updateData.fullPath}`;
 //         const { Picdata, Picdataerror } = await supabase
 //           .from("User")
 //           .update({ ProfilePic })
@@ -536,7 +536,7 @@ app.post("/addmenu", upload.single("file"), async (req, res) => {
       });
     if (uploadError) throw uploadError;
     else {
-      const MenuPic = `https://gemuxctpjqhmwbtxrpul.supabase.co/storage/v1/object/public/${PicData.fullPath}`;
+      const MenuPic = `https://yzqsiymwrqatvmfcyyfg.supabase.co/storage/v1/object/public/${PicData.fullPath}`;
       const { data, error } = await supabase
         .from("Menu")
         .insert([{ RestaurantId, NameFood, Price, TypeID, MenuPic }])
@@ -590,7 +590,7 @@ app.put("/editmenu", upload.single("file"), async (req, res) => {
         throw uploadError;
       }
 
-      const img = `https://gemuxctpjqhmwbtxrpul.supabase.co/storage/v1/object/public/${updateData.fullPath}`;
+      const img = `https://yzqsiymwrqatvmfcyyfg.supabase.co/storage/v1/object/public/${updateData.fullPath}`;
 
       const { data, error } = await supabase.from("Menu").update({ TypeID: type, NameFood: name, Price: price, MenuPic: img }).eq("Id", id).select("*");
 

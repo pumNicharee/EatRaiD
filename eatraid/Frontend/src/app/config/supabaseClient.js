@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-const supabaseUrl = 'https://gemuxctpjqhmwbtxrpul.supabase.co'
+const supabaseUrl = 'https://yzqsiymwrqatvmfcyyfg.supabase.co'
 const supabaseKey = process.env.NEXT_PUBLIC_ANON_KEY
 export const supabase = createClient(supabaseUrl, supabaseKey)
 export const api_port = 3300

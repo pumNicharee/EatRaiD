@@ -10,6 +10,7 @@ const e = require("express");
 const bodyParser = require("body-parser");
 
 const app = express();
+app.set("trust proxy", 1);
 
 // app.use(
 //   cors({
@@ -29,11 +30,26 @@ app.use(
   })
 );
 
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       secure: true,
+//       httpOnly: true,
+//       maxAge: 24 * 60 * 60 * 1000,
+//       sameSite: "none",
+//     }
+//   })
+// );
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    proxy: true,
     cookie: {
       secure: true,
       httpOnly: true,

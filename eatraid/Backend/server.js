@@ -579,71 +579,71 @@ app.put("/editprofile", upload.single("file"), async (req, res) => {
 //   }
 // });
 
-// app.put("/editmenu", upload.single("file"), async (req, res) => {
-//   try {
-//     const file = req.file;
-//     console.log(file);
-//     const { id, type, name, price } = req.body;
-//     console.log(req.body);
-//     const newminetype = "image/jpeg";
-//     const newfilename = `Menu_${id}_${uuid4()}.jpeg`;
+app.put("/editmenu", upload.single("file"), async (req, res) => {
+  try {
+    const file = req.file;
+    console.log(file);
+    const { id, type, name, price } = req.body;
+    console.log(req.body);
+    const newminetype = "image/jpeg";
+    const newfilename = `Menu_${id}_${uuid4()}.jpeg`;
 
-//     const { data: MenuData, error: fetchError } = await supabase
-//       .from("Menu")
-//       .select("MenuPic")
-//       .eq("Id", id)
-//       .single();
+    const { data: MenuData, error: fetchError } = await supabase
+      .from("Menu")
+      .select("MenuPic")
+      .eq("Id", id)
+      .single();
 
-//     if (fetchError) {
-//       throw fetchError;
-//     }
-//     if (!MenuData) {
-//       throw new Error("Post not found.");
-//     }
+    if (fetchError) {
+      throw fetchError;
+    }
+    if (!MenuData) {
+      throw new Error("Post not found.");
+    }
 
-//     const oldMenuPic = MenuData.MenuPic;
-//     const imagePath = oldMenuPic.split('/').pop();
+    const oldMenuPic = MenuData.MenuPic;
+    const imagePath = oldMenuPic.split('/').pop();
 
 
-//     if (file) {
+    if (file) {
 
-//       await supabase.storage.from("Menu").remove([imagePath]);
+      await supabase.storage.from("Menu").remove([imagePath]);
 
-//       const { data: updateData, error: uploadError } = await supabase.storage
-//         .from("Menu")
-//         .upload(newfilename, file.buffer, {
-//           contentType: newminetype,
-//           upsert: true,
-//         });
+      const { data: updateData, error: uploadError } = await supabase.storage
+        .from("Menu")
+        .upload(newfilename, file.buffer, {
+          contentType: newminetype,
+          upsert: true,
+        });
 
-//       if (uploadError) {
-//         throw uploadError;
-//       }
+      if (uploadError) {
+        throw uploadError;
+      }
 
-//       const img = `https://yzqsiymwrqatvmfcyyfg.supabase.co/storage/v1/object/public/${updateData.fullPath}`;
+      const img = `https://yzqsiymwrqatvmfcyyfg.supabase.co/storage/v1/object/public/${updateData.fullPath}`;
 
-//       const { data, error } = await supabase.from("Menu").update({ TypeID: type, NameFood: name, Price: price, MenuPic: img }).eq("Id", id).select("*");
+      const { data, error } = await supabase.from("Menu").update({ TypeID: type, NameFood: name, Price: price, MenuPic: img }).eq("Id", id).select("*");
 
-//       if (error) {
-//         res.status(500).json({ error });
-//       } else {
-//         res.status(200).json(data);
-//       }
-//     } else {
-//       // return res.status(400).json({ msg: "No file uploaded" });
-//       const img = oldMenuPic;
-//       const { data, error } = await supabase.from("Menu").update({ TypeID: type, NameFood: name, Price: price, MenuPic: img }).eq("Id", id).select("*");
+      if (error) {
+        res.status(500).json({ error });
+      } else {
+        res.status(200).json(data);
+      }
+    } else {
+      // return res.status(400).json({ msg: "No file uploaded" });
+      const img = oldMenuPic;
+      const { data, error } = await supabase.from("Menu").update({ TypeID: type, NameFood: name, Price: price, MenuPic: img }).eq("Id", id).select("*");
 
-//       if (error) {
-//         res.status(500).json({ error });
-//       } else {
-//         res.status(200).json(data);
-//       }
-//     }
-//   } catch (error) {
-//     res.status(500).json({ msg: error.message });
-//   }
-// });
+      if (error) {
+        res.status(500).json({ error });
+      } else {
+        res.status(200).json(data);
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
 
 app.post("/addmenu", upload.single("file"), async (req, res) => {
   try {

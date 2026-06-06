@@ -6,6 +6,7 @@ export const api_port = 3300
 export const web_port = 3000
 // export const NEXT_PUBLIC_BASE_API_URL = `http://localhost:${api_port}`
 export const NEXT_PUBLIC_BASE_API_URL = `https://eatraid.onrender.com`
-export const NEXT_PUBLIC_BASE_WEB_URL = `http://localhost:${web_port}`
+// export const NEXT_PUBLIC_BASE_WEB_URL = `http://localhost:${web_port}`
+export const NEXT_PUBLIC_BASE_WEB_URL = `https://eat-rai-d-15pa.vercel.app`
 
  
